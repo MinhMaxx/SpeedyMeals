@@ -58,7 +58,7 @@ public class fragment_restaurant extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 10;
+            return 20;
         }
     }
 
@@ -75,7 +75,7 @@ public class fragment_restaurant extends Fragment {
         public void bind(int pos)
         {
             restName.setText("Restaurant" + pos);
-            restPic.setImageResource(R.drawable.default_image);
+            restPic.setImageResource(R.drawable.ic_baseline_restaurant_24);
         }
 
     }
