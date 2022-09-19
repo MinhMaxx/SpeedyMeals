@@ -12,21 +12,11 @@ public class Restaurant {
     private int profilePictureID;
     private List<Food> menus;
 
-    public Restaurant(int id,String name){
+    public Restaurant(int id,String name,int profilePictureID){
         this.id = id;
         this.name = name;
+        this.profilePictureID = profilePictureID;
         this.menus = null;
-
-        //Add drawable id to object base on name
-        //If can't find a drawable -> use default one
-        //I haven't tested it yet though
-        int avatarID = Resources.getSystem().getIdentifier(name,"drawable","com.example.speedymeals");
-        if(avatarID == 0){
-            profilePictureID = R.drawable.default_image;
-        }
-        else{
-            profilePictureID = avatarID;
-        }
     }
 
     public void addFood(Food food){menus.add(food);}
