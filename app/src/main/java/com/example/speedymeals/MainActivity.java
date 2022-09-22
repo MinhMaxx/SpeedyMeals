@@ -1,5 +1,6 @@
 package com.example.speedymeals;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private DBManager dbManager;
     private RestaurantList restaurants;
     BottomNavigationView bottomNavigationView;
+    ActionBar actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         dbManager.open();
         restaurants = new RestaurantList();
         restaurants.load(dbManager.readRestaurant());
+        actionBar = getSupportActionBar();
         FragmentManager fm = getSupportFragmentManager();
         fragment_cart cFragment = new fragment_cart();
         fragment_home hFragment = new fragment_home();
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         fm.beginTransaction().replace(R.id.mainMenuView, hFragment).commit();
+        actionBar.setTitle("Home");
+        actionBar.setSubtitle("Today's Specials");
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -47,14 +53,22 @@ public class MainActivity extends AppCompatActivity {
                 switch(item.getItemId()){
                     case R.id.home:
                         fm.beginTransaction().replace(R.id.mainMenuView,hFragment).commit();
+                        actionBar.setTitle("Home");
+                        actionBar.setSubtitle("Today's Specials");
                             return true;
                     case R.id.rest:
                         fm.beginTransaction().replace(R.id.mainMenuView,rFragment).commit();
+                        actionBar.setTitle("Restaurants");
+                        actionBar.setSubtitle("");
                             return true;
                     case R.id.cart:
                         fm.beginTransaction().replace(R.id.mainMenuView,cFragment).commit();
+                        actionBar.setTitle("Cart");
+                        actionBar.setSubtitle("");
                             return true;
                     case R.id.acct:
+                        actionBar.setTitle("Profile");
+                        actionBar.setSubtitle("");
                         fm.beginTransaction().replace(R.id.mainMenuView,pFragment).commit();
                             return true;
                 }
