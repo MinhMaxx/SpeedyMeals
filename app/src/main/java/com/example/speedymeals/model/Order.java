@@ -5,6 +5,7 @@ import java.util.Date;
 public class Order {
     private int id;
     private int userID;
+    private String address;
     private String restaurantName;
     private String[] foodName;
     private String[] foodNumber;
@@ -12,10 +13,11 @@ public class Order {
     private Date date;
     private double totalCost;
 
-    public Order(int id, int userID, String restaurantName, String[] foodName,
+    public Order(int id, int userID, String address,String restaurantName, String[] foodName,
                  String[] foodNumber, String[] foodPrice, Date date, double totalCost){
         this.id = id;
         this.userID = userID;
+        this.address = address;
         this.restaurantName = restaurantName;
         this.foodName = foodName;
         this.foodNumber = foodNumber;
@@ -27,6 +29,8 @@ public class Order {
     public int getId() {return id;}
 
     public int getUserID(){return userID;}
+
+    public String getAddress(){return address;}
 
     public String getRestaurantName(){return restaurantName;}
 
