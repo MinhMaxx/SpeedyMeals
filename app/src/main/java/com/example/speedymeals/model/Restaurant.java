@@ -4,6 +4,7 @@ import android.content.res.Resources;
 
 import com.example.speedymeals.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
@@ -16,10 +17,10 @@ public class Restaurant {
         this.id = id;
         this.name = name;
         this.profilePictureID = profilePictureID;
-        this.menus = null;
+        this.menus = new ArrayList<>();
     }
 
-    public void addFood(Food food){menus.add(food);}
+    public void loadMenus(List<Food> menus){this.menus=menus;}
 
     public boolean removeFood(Food food){return menus.remove(food);}
 
@@ -28,4 +29,17 @@ public class Restaurant {
     public String getName(){return name;}
 
     public int getProfilePictureID(){return profilePictureID;}
+
+    public int getID(){return id;}
+
+    public int size()
+    {
+        return menus.size();
+    }
+
+    public int addFood(Food newFood){
+        menus.add(newFood);
+        return menus.size()-1;
+    }
+
 }
