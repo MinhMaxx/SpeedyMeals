@@ -19,10 +19,14 @@ public class RestaurantList
         return restaurants.size();
     }
 
+    //Send Food.restaurantID to this to get back the restaurant
+    //Since we add it manually -> restaurantID == their position in the list
     public Restaurant get(int i)
     {
         return restaurants.get(i);
     }
+
+    public List<Restaurant> getRestaurants(){ return restaurants; }
 
     public int add(Restaurant newRestaurant)
     {
