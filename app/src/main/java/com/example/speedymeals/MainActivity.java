@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 
+import com.example.speedymeals.model.FoodList;
 import com.example.speedymeals.model.RestaurantList;
 import com.example.speedymeals.views.fragment_cart;
 import com.example.speedymeals.views.fragment_home;
@@ -23,6 +24,7 @@ import com.example.speedymeals.database.DBManager;
 public class MainActivity extends AppCompatActivity {
     private DBManager dbManager;
     private RestaurantList restaurants;
+    private FoodList foodList;
     BottomNavigationView bottomNavigationView;
     ActionBar actionBar;
 
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         dbManager.open();
         restaurants = new RestaurantList();
         restaurants.load(dbManager.readRestaurant());
+        foodList = new FoodList();
+        foodList.load(dbManager.readFood());
+
         actionBar = getSupportActionBar();
         FragmentManager fm = getSupportFragmentManager();
         fragment_cart cFragment = new fragment_cart();

@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.speedymeals.model.Food;
 import com.example.speedymeals.model.Order;
 import com.example.speedymeals.model.Restaurant;
-import com.example.speedymeals.model.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
