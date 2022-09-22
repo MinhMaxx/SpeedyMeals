@@ -35,6 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String USER_ID_COL = "id";
     private static final String USER_USERNAME_COL = "username";
     private static final String USER_PASSWORD_COL = "password";
+    private static final String USER_ADDRESS_COL = "address";
 
 
     //Order Table Field
@@ -42,6 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String ORDER_TABLE_NAME = "order_table";
     private static final String ORDER_ID_COL = "id";
     private static final String ORDER_USER_ID_COL = "userID";
+    private static final String ORDER_ADDRESS_COL = "address";
     private static final String ORDER_RESTAURANT_NAME_COL = "restaurantName";
     private static final String ORDER_FOOD_NAME_ARRAY_COL = "foodName";
     private static final String ORDER_FOOD_NUMBER_ARRAY_COL = "foodNumber";
@@ -71,11 +73,13 @@ public class DBHelper extends SQLiteOpenHelper {
         String queryUser =  "CREATE TABLE " + USER_TABLE_NAME + " ("
                 + USER_ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + USER_USERNAME_COL + " TEXT NOT NULL UNIQUE,"
-                + USER_PASSWORD_COL + " TEXT NOT NULL)";
+                + USER_PASSWORD_COL + " TEXT NOT NULL,"
+                + USER_ADDRESS_COL + " TEXT)";
 
         String queryOrder = "CREATE TABLE " + ORDER_TABLE_NAME + " ("
                 + ORDER_ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ORDER_USER_ID_COL + " INTEGER,"
+                + ORDER_ADDRESS_COL + " TEXT,"
                 + ORDER_RESTAURANT_NAME_COL + " TEXT,"
                 + ORDER_FOOD_NAME_ARRAY_COL + " TEXT,"
                 + ORDER_FOOD_NUMBER_ARRAY_COL + " TEXT,"
