@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle.putParcelableArrayList("fodList", FODList);
         Bundle.putParcelable("restList", restaurants);
         hFragment.setArguments(Bundle);
+        rFragment.setArguments(Bundle);
 
 
 
