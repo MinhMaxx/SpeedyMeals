@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.speedymeals.R;
+import com.example.speedymeals.model.Restaurant;
+import com.example.speedymeals.model.RestaurantList;
 
 import java.nio.channels.Selector;
 
@@ -22,6 +24,8 @@ import java.nio.channels.Selector;
 public class fragment_restaurant extends Fragment {
 
     private ResturantViewViewModel mViewModel;
+    private RestaurantList restaurantList;
+
 
     public static fragment_restaurant newInstance() {
         return new fragment_restaurant();
@@ -31,6 +35,8 @@ public class fragment_restaurant extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle bundle) {
         View view = inflater.inflate(R.layout.fragment_restaurant_view, container, false);
+
+        restaurantList = getArguments().getParcelable("restList");
 
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.restaurantRecyclerView);
         rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -58,7 +64,7 @@ public class fragment_restaurant extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 20;
+            return restaurantList.size();
         }
     }
 
@@ -74,8 +80,9 @@ public class fragment_restaurant extends Fragment {
 
         public void bind(int pos)
         {
-            restName.setText("Restaurant" + pos);
-            restPic.setImageResource(R.drawable.ic_baseline_restaurant_24);
+            Restaurant nRestaurant = restaurantList.get(pos);
+            restName.setText(nRestaurant.getName());
+            restPic.setImageResource(nRestaurant.getProfilePictureID());
         }
 
     }
