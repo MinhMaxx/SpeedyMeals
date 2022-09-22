@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/chanc/StudioProjects/SpeedyMeals/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.434" />
+        <entry key="..\:/Users/chanc/StudioProjects/SpeedyMeals/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.33" />
+        <entry key="..\:/Users/chanc/StudioProjects/SpeedyMeals/app/src/main/res/drawable/ic_baseline_view_list_24.xml" value="0.33" />
+        <entry key="..\:/Users/chanc/StudioProjects/SpeedyMeals/app/src/main/res/layout/activity_main.xml" value="0.575" />
+        <entry key="..\:/Users/chanc/StudioProjects/SpeedyMeals/app/src/main/res/layout/fragment_cart.xml" value="0.575" />
+        <entry key="..\:/Users/chanc/StudioProjects/SpeedyMeals/app/src/main/res/layout/fragment_home.xml" value="0.5609375" />
+        <entry key="..\:/Users/chanc/StudioProjects/SpeedyMeals/app/src/main/res/layout/fragment_profile.xml" value="0.575" />
+        <entry key="..\:/Users/chanc/StudioProjects/SpeedyMeals/app/src/main/res/layout/fragment_restaurant_view.xml" value="0.32760416666666664" />
+        <entry key="..\:/Users/chanc/StudioProjects/SpeedyMeals/app/src/main/res/layout/fragment_resturant_view.xml" value="0.575" />
+        <entry key="..\:/Users/chanc/StudioProjects/SpeedyMeals/app/src/main/res/layout/resterant_list_view.xml" value="0.5739583333333333" />
+        <entry key="..\:/Users/chanc/StudioProjects/SpeedyMeals/app/src/main/res/menu/bottom_menu.xml" value="0.575" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
