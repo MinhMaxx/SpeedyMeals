@@ -51,6 +51,7 @@ public class DBManager {
     private static final String USER_ID_COL = "id";
     private static final String USER_USERNAME_COL = "username";
     private static final String USER_PASSWORD_COL = "password";
+    private static final String USER_ADDRESS_COL = "address";
 
 
     //Order Table Field
@@ -58,6 +59,7 @@ public class DBManager {
     private static final String ORDER_TABLE_NAME = "order_table";
     private static final String ORDER_ID_COL = "id";
     private static final String ORDER_USER_ID_COL = "userID";
+    private static final String ORDER_ADDRESS_COL = "address";
     private static final String ORDER_RESTAURANT_NAME_COL = "restaurantName";
     private static final String ORDER_FOOD_NAME_ARRAY_COL = "foodName";
     private static final String ORDER_FOOD_NUMBER_ARRAY_COL = "foodNumber";
@@ -90,6 +92,9 @@ public class DBManager {
                 dbFiller.fillRestaurant();
             }
         }
+        if (cur != null) {
+            cur.close();
+        }
     }
 
     public void checkEmptyFood(){
@@ -100,6 +105,9 @@ public class DBManager {
                 dbFiller.fillFood();
             }
         }
+        if (cur != null) {
+            cur.close();
+        }
     }
 
     public List<Restaurant> readRestaurant(){
@@ -108,9 +116,11 @@ public class DBManager {
         if (cursorList.moveToFirst()) {
             do {
                 // on below line we are adding the data from cursor to our array list.
-                restaurantsList.add(new Restaurant(Integer.parseInt(cursorList.getString(0)),
+                Restaurant inRestaurant = new Restaurant(Integer.parseInt(cursorList.getString(0)),
                         cursorList.getString(1),
-                        Integer.parseInt(cursorList.getString(2))));
+                        Integer.parseInt(cursorList.getString(2)));
+                inRestaurant.loadMenus(readFoodToRestaurant(inRestaurant.getID()));
+                restaurantsList.add(inRestaurant);
             } while (cursorList.moveToNext());
         }
         // at last closing our cursor
@@ -150,6 +160,27 @@ public class DBManager {
         return foodList;
     }
 
+    public List<Food> readFoodToRestaurant(int restaurantID){
+        Cursor cursorList = db.rawQuery("SELECT * FROM " + FOOD_TABLE_NAME + " WHERE " + FOOD_RESTAURANT_ID_COL + " = " + restaurantID, null);
+        ArrayList<Food> foodList = new ArrayList<>();
+        if (cursorList.moveToFirst()) {
+            do {
+                // on below line we are adding the data from cursor to our array list.
+                foodList.add(new Food(Integer.parseInt(cursorList.getString(0)),
+                        cursorList.getString(1),
+                        cursorList.getString(2),
+                        Double.parseDouble(cursorList.getString(3)),
+                        Integer.parseInt(cursorList.getString(4)),
+                        Integer.parseInt(cursorList.getString(5))));
+            } while (cursorList.moveToNext());
+        }
+        // at last closing our cursor
+        // and returning our array list.
+        cursorList.close();
+        //db.close();
+        return foodList;
+    }
+
     public void addFood(String name, String description, double price, int avatarID,int restaurantID){
         ContentValues values = new ContentValues();
         values.put(FOOD_NAME_COL, name);
@@ -159,11 +190,11 @@ public class DBManager {
         values.put(FOOD_RESTAURANT_ID_COL, restaurantID);
 
         db.insert(FOOD_TABLE_NAME, null, values);
-        //db.close();
+        //.db.close();
     }
 
-    public List<Order> readOrder(){
-        Cursor cursorList = db.rawQuery("SELECT * FROM " + ORDER_TABLE_NAME, null);
+    public List<Order> readOrderOfUser(int userID){
+        Cursor cursorList = db.rawQuery("SELECT * FROM " + ORDER_TABLE_NAME + " WHERE " + ORDER_USER_ID_COL + " = " +userID, null);
         ArrayList<Order> orderList = new ArrayList<>();
         if (cursorList.moveToFirst()) {
             do {
@@ -173,35 +204,36 @@ public class DBManager {
                     loadingOrder = new Order(Integer.parseInt(cursorList.getString(0)),
                             Integer.parseInt(cursorList.getString(1)),
                             cursorList.getString(2),
-                            convertStringToStringArray(cursorList.getString(3)),
+                            cursorList.getString(3),
                             convertStringToStringArray(cursorList.getString(4)),
                             convertStringToStringArray(cursorList.getString(5)),
-                            formatter.parse(cursorList.getString(6)),
-                            Double.parseDouble(cursorList.getString(7)));
+                            convertStringToStringArray(cursorList.getString(6)),
+                            formatter.parse(cursorList.getString(7)),
+                            Double.parseDouble(cursorList.getString(8)));
                 } catch (ParseException e) {
                     loadingOrder = new Order(Integer.parseInt(cursorList.getString(0)),
                             Integer.parseInt(cursorList.getString(1)),
                             cursorList.getString(2),
-                            convertStringToStringArray(cursorList.getString(3)),
+                            cursorList.getString(3),
                             convertStringToStringArray(cursorList.getString(4)),
                             convertStringToStringArray(cursorList.getString(5)),
+                            convertStringToStringArray(cursorList.getString(6)),
                             null,
-                            Double.parseDouble(cursorList.getString(7)));
+                            Double.parseDouble(cursorList.getString(8)));
                 }
                 orderList.add(loadingOrder);
             } while (cursorList.moveToNext());
         }
-        // at last closing our cursor
-        // and returning our array list.
         cursorList.close();
         //db.close();
         return orderList;
     }
 
-    public void addOrder(int userID, String restaurantName, String[] foodName,
+    public void addOrder(int userID, String address,String restaurantName, String[] foodName,
                          String[] foodNumber, String[] foodPrice, Date date, double totalCost){
         ContentValues values = new ContentValues();
         values.put(ORDER_USER_ID_COL, userID);
+        values.put(ORDER_ADDRESS_COL, address);
         values.put(ORDER_RESTAURANT_NAME_COL, restaurantName);
         values.put(ORDER_FOOD_NAME_ARRAY_COL, convertStringArrayToString(foodName));
         values.put(ORDER_FOOD_NUMBER_ARRAY_COL, convertStringArrayToString(foodPrice));
@@ -214,32 +246,59 @@ public class DBManager {
     }
 
     //Might remove later due to security issues
-    public List<User> readUser(){
-        Cursor cursorList = db.rawQuery("SELECT * FROM " + USER_TABLE_NAME, null);
-        ArrayList<User> userList = new ArrayList<>();
-        if (cursorList.moveToFirst()) {
-            do {
-                // on below line we are adding the data from cursor to our array list.
-                userList.add(new User(Integer.parseInt(cursorList.getString(0)),
-                        cursorList.getString(1)));
-            } while (cursorList.moveToNext());
+//    public List<User> readUser(){
+//        Cursor cursorList = db.rawQuery("SELECT * FROM " + USER_TABLE_NAME, null);
+//        ArrayList<User> userList = new ArrayList<>();
+//        if (cursorList.moveToFirst()) {
+//            do {
+//                // on below line we are adding the data from cursor to our array list.
+//                userList.add(new User(Integer.parseInt(cursorList.getString(0)),
+//                        cursorList.getString(1)));
+//            } while (cursorList.moveToNext());
+//        }
+//        cursorList.close();
+//        //db.close();
+//        return userList;
+//    }
+
+    public Boolean addUser(String username, String password, String address){
+        Boolean isSuccessful = true;
+        //Check to see if an user with the username have been registered
+        Cursor cursorList = db.rawQuery("SELECT * FROM " + USER_TABLE_NAME + " WHERE " + USER_USERNAME_COL + " = " +username, null);
+        if(cursorList.getCount()==0){
+            ContentValues values = new ContentValues();
+            String encryptedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray());
+            values.put(USER_USERNAME_COL, username);
+            values.put(USER_PASSWORD_COL, encryptedPassword);
+            values.put(USER_ADDRESS_COL, address);
+
+            db.insert(USER_TABLE_NAME, null, values);
         }
-        // at last closing our cursor
-        // and returning our array list.
-        cursorList.close();
+        else{
+            isSuccessful = false;
+        }
         //db.close();
-        return userList;
+        cursorList.close();
+        return isSuccessful;
     }
 
-    public void addUser(String username, String password){
-
-        ContentValues values = new ContentValues();
-        String encryptedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray());
-        values.put(USER_USERNAME_COL, username);
-        values.put(USER_PASSWORD_COL, encryptedPassword);
-
-        db.insert(USER_TABLE_NAME, null, values);
-        //db.close();
+    //Take in Username + Password
+    //Check to see if User exit in DB, if Password match with Encrypted Password stored in DB
+    public Boolean checkUser(String username, String password){
+        //Check to see if an user with the username have been registered
+        Cursor cursorList = db.rawQuery("SELECT * FROM " + USER_TABLE_NAME + " WHERE " + USER_USERNAME_COL + " = " +username, null);
+        if(cursorList.getCount()!=0){
+            cursorList.moveToFirst();
+            String encryptedPassword = cursorList.getString(2);
+            //db.close();
+            cursorList.close();
+            return BCrypt.verifyer().verify(password.toCharArray(),encryptedPassword).verified;
+        }
+        else{
+            //db.close();
+            cursorList.close();
+            return false;
+        }
     }
 
     private SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
