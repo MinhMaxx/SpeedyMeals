@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.MenuItem;
 
 
+import com.example.speedymeals.model.Food;
 import com.example.speedymeals.model.FoodList;
 import com.example.speedymeals.model.RestaurantList;
 import com.example.speedymeals.views.fragment_cart;
@@ -21,6 +23,9 @@ import com.example.speedymeals.database.DBFiller;
 import com.example.speedymeals.database.DBHelper;
 import com.example.speedymeals.database.DBManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     private DBManager dbManager;
     private RestaurantList restaurants;
@@ -32,24 +37,36 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dbManager = new DBManager(this);
-        dbManager.open();
-        restaurants = new RestaurantList();
-        restaurants.load(dbManager.readRestaurant());
-        foodList = new FoodList();
-        foodList.load(dbManager.readFood());
+        //Gets Database information
+            dbManager = new DBManager(this);
+            dbManager.open();
+            restaurants = new RestaurantList();
+            restaurants.load(dbManager.readRestaurant());
+            foodList = new FoodList();
+            foodList.load(dbManager.readFood());
+            ArrayList<Food> FODList = foodList.getFoodsOfTheDay(10);
 
         actionBar = getSupportActionBar();
+
+        //set up fragments
         FragmentManager fm = getSupportFragmentManager();
         fragment_cart cFragment = new fragment_cart();
         fragment_home hFragment = new fragment_home();
         fragment_profile pFragment = new fragment_profile();
         fragment_restaurant rFragment = new fragment_restaurant();
 
+        //create new bundle for passing into fragment
+        Bundle Bundle = new Bundle();
+        Bundle.putParcelableArrayList("fodList", FODList);
+        Bundle.putParcelable("restList", restaurants);
+        hFragment.setArguments(Bundle);
 
-        fm.beginTransaction().replace(R.id.mainMenuView, hFragment).commit();
+
+
         actionBar.setTitle("Home");
         actionBar.setSubtitle("Today's Specials");
+        fm.beginTransaction().replace(R.id.mainMenuView, hFragment).commit();
+
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

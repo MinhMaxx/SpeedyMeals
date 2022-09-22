@@ -1,14 +1,35 @@
 package com.example.speedymeals.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class FoodList
+public class FoodList implements Parcelable
 {
-    private List<Food> foods = new ArrayList<>();
+    private List<Food> foods;
 
-    public FoodList() {}
+    public FoodList() {
+        foods = new ArrayList<>();
+    }
+
+    protected FoodList(Parcel in) {
+        foods = in.readArrayList(null);
+    }
+
+    public static final Creator<FoodList> CREATOR = new Creator<FoodList>() {
+        @Override
+        public FoodList createFromParcel(Parcel in) {
+            return new FoodList(in);
+        }
+
+        @Override
+        public FoodList[] newArray(int size) {
+            return new FoodList[size];
+        }
+    };
 
     public void load(List<Food> foods)
     {
@@ -28,9 +49,9 @@ public class FoodList
     public List<Food> getFoods() { return foods; }
 
     //Return random List of Food with numFood amount of Foods w/ no duplicate
-    public List<Food> getFoodsOfTheDay(int numFood){
+    public ArrayList<Food> getFoodsOfTheDay(int numFood){
         Random rand = new Random();
-        List<Food> foodList = new ArrayList<>();
+        ArrayList<Food> foodList = new ArrayList<>();
 
         do{
             Food randFood = foods.get(rand.nextInt(foods.size()));
@@ -46,5 +67,15 @@ public class FoodList
     {
         foods.add(newFood);
         return foods.size() - 1;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeList(foods);
     }
 }
