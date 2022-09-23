@@ -29,6 +29,7 @@ public class CommonCart extends ViewModel {
         foods.add(inFood);
         foodAmount.add(infoodAmount);
         cart.setValue(foods);
+        noAmount.setValue(foodAmount);
 
     }
 
@@ -69,6 +70,55 @@ public class CommonCart extends ViewModel {
 
             noAmount.setValue(foodAmount);
         }
+    }
+
+    public int cartSize()
+    {
+        if(cart.getValue()!=null)
+            return cart.getValue().size();
+
+        return 0;
+    }
+
+    //Processing Logic()
+
+    public double totalPrice()
+    {
+        double totalPrice = 0;
+        ArrayList<Food> foods = new ArrayList<>();
+        ArrayList<Integer> foodAmount = new ArrayList<>();
+        if(noAmount.getValue()!=null)
+            foodAmount = noAmount.getValue();
+        if(cart.getValue()!=null)
+            foods = cart.getValue();
+
+        int ii = 0;
+
+        for (Food nfood:
+             foods) {
+            totalPrice += nfood.getPrice() * foodAmount.get(ii);
+            ii++;
         }
+
+        return totalPrice;
+    }
+
+    public void clearCart()
+    {
+        noAmount.setValue(null);
+        cart.setValue(null);
+    }
+
+    public ArrayList<Food> getFoodList()
+    {
+        return cart.getValue();
+
+    }
+
+    public ArrayList<Integer> getNoItems()
+    {
+        return noAmount.getValue();
+    }
+
 
 }

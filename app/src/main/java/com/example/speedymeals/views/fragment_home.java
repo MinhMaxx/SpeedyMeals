@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +35,8 @@ public class fragment_home extends Fragment {
     private ImageView foodPic;
     private Button plus,minus,addtocart;
 
+    private CommonCart mViewModel;
+
     public static fragment_home newInstance() { return new fragment_home();}
 
     @Override
@@ -43,6 +46,9 @@ public class fragment_home extends Fragment {
         data = getArguments().getParcelableArrayList("fodList");
         restList = getArguments().getParcelable("restList");
         View view = inflater.inflate(R.layout.fragment_home, container,false);
+
+        mViewModel = new ViewModelProvider(getActivity(), (ViewModelProvider.Factory) new ViewModelProvider.NewInstanceFactory()).get(CommonCart.class);
+
 
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.homeRecycler);
         rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -130,6 +136,8 @@ public class fragment_home extends Fragment {
         addtocart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(Integer.parseInt(String.valueOf(noOfItem.getText())) !=0)
+                    mViewModel.addtoList(inFood, Integer.valueOf(String.valueOf(noOfItem.getText())));
                 dialog.dismiss();
             }
         });

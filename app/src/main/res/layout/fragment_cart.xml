@@ -28,7 +28,7 @@
         android:id="@+id/checkOut"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="Button"
+        android:text="Check Out"
         android:autoSizeMaxTextSize="40dp"
         android:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
          />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/total"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeMaxTextSize="40dp"
