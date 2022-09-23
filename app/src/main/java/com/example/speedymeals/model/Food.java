@@ -2,7 +2,7 @@ package com.example.speedymeals.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
+//implemented parcelable so it can be passed into fragment
 public class Food implements Parcelable
 {
     private int id;

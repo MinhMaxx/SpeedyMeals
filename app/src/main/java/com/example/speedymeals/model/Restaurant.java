@@ -8,7 +8,7 @@ import com.example.speedymeals.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//implemented parcelable so it can be passed into fragment
 public class Restaurant implements Parcelable {
     private int id;
     private String name;

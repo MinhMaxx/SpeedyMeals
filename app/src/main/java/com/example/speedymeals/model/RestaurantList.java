@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//implemented parcelable so it can be passed into fragment
 public class RestaurantList implements Parcelable
 {
     private List<Restaurant> restaurants;

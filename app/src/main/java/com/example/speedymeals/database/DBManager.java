@@ -21,6 +21,8 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 
 public class DBManager {
 
+    //making this class into singleton
+    private static DBManager instance = null;
     private DBHelper dbHelper;
     private DBFiller dbFiller;
 
@@ -66,10 +68,19 @@ public class DBManager {
     private static final String ORDER_DATE_COL = "date";
     private static final String ORDER_TOTAL_COST_COL = "totalCost";
 
-    public DBManager(Context context) {
+    private DBManager(Context context) {
         this.context = context;
     }
 
+    //singleton methods
+    public static DBManager getInstance(Context context)
+    {
+        if(instance == null)
+            instance = new DBManager(context);
+        return instance;
+    }
+
+    //database
     public DBManager open() throws SQLException {
         dbHelper = new DBHelper(context);
         dbFiller = new DBFiller(this);
