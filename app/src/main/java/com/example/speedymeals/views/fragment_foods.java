@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.speedymeals.R;
+import com.example.speedymeals.model.CommonCart;
 import com.example.speedymeals.model.Food;
 import com.example.speedymeals.model.Restaurant;
 
@@ -29,6 +31,7 @@ public class fragment_foods extends Fragment {
     private TextView noOfItem, foodname, pricetext, restName;
     private ImageView foodPic, restPic;
     private Button plus,minus,addtocart;
+    private CommonCart mViewModel;
 
    private Restaurant cRestaurant;
    @Override
@@ -43,6 +46,8 @@ public class fragment_foods extends Fragment {
         restPic.setImageResource(cRestaurant.getProfilePictureID());
         restName = view.findViewById(R.id.foodRestName);
         restName.setText(cRestaurant.getName());
+
+        mViewModel = new ViewModelProvider(getActivity(), (ViewModelProvider.Factory) new ViewModelProvider.NewInstanceFactory()).get(CommonCart.class);
 
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.foodlist);
         rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -130,6 +135,7 @@ public class fragment_foods extends Fragment {
         addtocart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mViewModel.addtoList(inFood);
                 dialog.dismiss();
             }
         });
