@@ -127,7 +127,7 @@ public class fragment_foods extends Fragment {
         foodname.setText(inFood.getName());
         pricetext.setText("$" + String.valueOf(inFood.getPrice()));
         foodPic.setImageResource(inFood.getProfilePictureID());
-
+        noOfItem.setText("0");
         dialogBuilder.setView(foodPopup);
         dialog = dialogBuilder.create();
         dialog.show();
@@ -135,7 +135,8 @@ public class fragment_foods extends Fragment {
         addtocart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mViewModel.addtoList(inFood);
+                if(Integer.parseInt(String.valueOf(noOfItem.getText())) !=0)
+                    mViewModel.addtoList(inFood, Integer.valueOf(String.valueOf(noOfItem.getText())));
                 dialog.dismiss();
             }
         });
