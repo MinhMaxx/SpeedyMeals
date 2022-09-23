@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.speedymeals.model.Food;
 import com.example.speedymeals.model.Order;
 import com.example.speedymeals.model.Restaurant;
+import com.example.speedymeals.model.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +18,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 
 public class DBManager {
 
@@ -52,6 +52,7 @@ public class DBManager {
     private static final String USER_ID_COL = "id";
     private static final String USER_USERNAME_COL = "username";
     private static final String USER_PASSWORD_COL = "password";
+    private static final String USER_NAME_COL = "name";
     private static final String USER_ADDRESS_COL = "address";
 
 
@@ -271,15 +272,15 @@ public class DBManager {
 //        return userList;
 //    }
 
-    public Boolean addUser(String username, String password, String address){
+    public Boolean addUser(String username, String password, String name, String address){
         Boolean isSuccessful = true;
         //Check to see if an user with the username have been registered
-        Cursor cursorList = db.rawQuery("SELECT * FROM " + USER_TABLE_NAME + " WHERE " + USER_USERNAME_COL + " = " +username, null);
+        Cursor cursorList = db.rawQuery("SELECT * FROM " + USER_TABLE_NAME + " WHERE " + USER_USERNAME_COL + " = '" +username+"'", null);
         if(cursorList.getCount()==0){
             ContentValues values = new ContentValues();
-            String encryptedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray());
             values.put(USER_USERNAME_COL, username);
-            values.put(USER_PASSWORD_COL, encryptedPassword);
+            values.put(USER_PASSWORD_COL, password);
+            values.put(USER_NAME_COL, name);
             values.put(USER_ADDRESS_COL, address);
 
             db.insert(USER_TABLE_NAME, null, values);
@@ -294,20 +295,36 @@ public class DBManager {
 
     //Take in Username + Password
     //Check to see if User exit in DB, if Password match with Encrypted Password stored in DB
-    public Boolean checkUser(String username, String password){
+    public User checkUser(String username, String inPassword){
         //Check to see if an user with the username have been registered
-        Cursor cursorList = db.rawQuery("SELECT * FROM " + USER_TABLE_NAME + " WHERE " + USER_USERNAME_COL + " = " +username, null);
+        Cursor cursorList = db.rawQuery("SELECT * FROM " + USER_TABLE_NAME + " WHERE " + USER_USERNAME_COL + " = '" +username+"'", null);
         if(cursorList.getCount()!=0){
-            cursorList.moveToFirst();
-            String encryptedPassword = cursorList.getString(2);
+            String password = "";
+            User newUser = null;
+            if (cursorList.moveToFirst()) {
+                do {
+                    // on below line we are adding the data from cursor to our array list.
+                    newUser = new User(Integer.parseInt(cursorList.getString(0)),
+                            cursorList.getString(1),
+                            cursorList.getString(3),
+                            cursorList.getString(4));
+                    password = cursorList.getString(2);
+                } while (cursorList.moveToNext());
+            }
             //db.close();
             cursorList.close();
-            return BCrypt.verifyer().verify(password.toCharArray(),encryptedPassword).verified;
+            if(password.equals(inPassword))
+            {
+                return newUser;
+            }
+            else{
+                return null;
+            }
         }
         else{
             //db.close();
             cursorList.close();
-            return false;
+            return null;
         }
     }
 

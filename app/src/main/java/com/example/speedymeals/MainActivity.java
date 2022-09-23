@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.example.speedymeals.model.Food;
 import com.example.speedymeals.model.FoodList;
 import com.example.speedymeals.model.RestaurantList;
+import com.example.speedymeals.model.User;
 import com.example.speedymeals.views.fragment_cart;
 import com.example.speedymeals.views.fragment_home;
 import com.example.speedymeals.views.fragment_profile;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private DBManager dbManager;
     private RestaurantList restaurants;
     private FoodList foodList;
+    private User user;
     BottomNavigationView bottomNavigationView;
     ActionBar actionBar;
 
@@ -53,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         fragment_cart cFragment = new fragment_cart();
         fragment_home hFragment = new fragment_home();
-        fragment_profile pFragment = new fragment_profile();
         fragment_restaurant rFragment = new fragment_restaurant();
         fragment_login lFragment = new fragment_login();
 

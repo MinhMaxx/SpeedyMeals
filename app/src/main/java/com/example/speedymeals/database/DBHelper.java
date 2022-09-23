@@ -35,6 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String USER_ID_COL = "id";
     private static final String USER_USERNAME_COL = "username";
     private static final String USER_PASSWORD_COL = "password";
+    private static final String USER_NAME_COL = "name";
     private static final String USER_ADDRESS_COL = "address";
 
 
@@ -74,6 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + USER_ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + USER_USERNAME_COL + " TEXT NOT NULL UNIQUE,"
                 + USER_PASSWORD_COL + " TEXT NOT NULL,"
+                + USER_NAME_COL + " TEXT,"
                 + USER_ADDRESS_COL + " TEXT)";
 
         String queryOrder = "CREATE TABLE " + ORDER_TABLE_NAME + " ("
