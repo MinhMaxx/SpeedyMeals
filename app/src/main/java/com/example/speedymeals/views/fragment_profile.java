@@ -15,13 +15,10 @@ import com.example.speedymeals.model.User;
 
 
 public class fragment_profile extends Fragment {
-    private User user;
     private ViewGroup parent;
 
 
-    public fragment_profile(User user) {
-        this.user = user;
-    }
+    public fragment_profile() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +32,6 @@ public class fragment_profile extends Fragment {
         parent = container;
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         TextView title = view.findViewById(R.id.title);
-        title.setText("Hello "+ user.getName());
 
         // Inflate the layout for this fragment
         return view;

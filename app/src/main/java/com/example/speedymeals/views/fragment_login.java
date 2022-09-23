@@ -1,27 +1,22 @@
 package com.example.speedymeals.views;
 
 import static android.graphics.Color.parseColor;
-import static com.example.speedymeals.R.color.green_700;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Patterns;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.speedymeals.R;
 import com.example.speedymeals.database.DBManager;
+import com.example.speedymeals.model.CommonUser;
 import com.example.speedymeals.model.User;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -33,6 +28,7 @@ public class fragment_login extends Fragment
     private Button loginButton;
     private Button registerButton;
     private DBManager dbManager;
+    private CommonUser data;
 
     public fragment_login() {
 
@@ -68,7 +64,9 @@ public class fragment_login extends Fragment
                             mySnackbar.setText("Login Sucessful");
                             mySnackbar.setBackgroundTint(parseColor("#388E3C"));
                             mySnackbar.show();
-                            fragment_profile newFrag = new fragment_profile(newUser);
+                            data = new ViewModelProvider(getActivity()).get(CommonUser.class);
+                            data.setUser(newUser);
+                            fragment_profile newFrag = new fragment_profile();
                             getActivity().getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.mainMenuView,newFrag)
                                     .addToBackStack(null)
