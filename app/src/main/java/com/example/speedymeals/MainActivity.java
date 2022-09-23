@@ -16,6 +16,7 @@ import com.example.speedymeals.views.fragment_cart;
 import com.example.speedymeals.views.fragment_home;
 import com.example.speedymeals.views.fragment_profile;
 import com.example.speedymeals.views.fragment_restaurant;
+import com.example.speedymeals.views.fragment_login;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
