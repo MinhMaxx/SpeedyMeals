@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         fragment_home hFragment = new fragment_home();
         fragment_profile pFragment = new fragment_profile();
         fragment_restaurant rFragment = new fragment_restaurant();
+        fragment_login lFragment = new fragment_login();
 
         //create new bundle for passing into fragment
         Bundle Bundle = new Bundle();
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.acct:
                         actionBar.setTitle("Profile");
                         actionBar.setSubtitle("");
-                        fm.beginTransaction().replace(R.id.mainMenuView,pFragment).commit();
+                        fm.beginTransaction().replace(R.id.mainMenuView,lFragment).commit();
                             return true;
                 }
 
