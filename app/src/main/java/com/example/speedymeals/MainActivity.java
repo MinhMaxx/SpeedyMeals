@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Gets Database information
-            dbManager = new DBManager(this);
+            dbManager = DBManager.getInstance(this);
             dbManager.open();
             restaurants = new RestaurantList();
             restaurants.load(dbManager.readRestaurant());
@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         //create new bundle for passing into fragment
         Bundle Bundle = new Bundle();
-        Bundle.putParcelableArrayList("fodList", FODList);
-        Bundle.putParcelable("restList", restaurants);
+        Bundle.putParcelableArrayList("fodList", FODList); //list was used instead so a new list wasnt generated everytime it was called
+        Bundle.putParcelable("restList", restaurants);//adds restaurants into the bundle
         hFragment.setArguments(Bundle);
         rFragment.setArguments(Bundle);
 

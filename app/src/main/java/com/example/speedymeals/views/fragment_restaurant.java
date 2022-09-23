@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.speedymeals.R;
+import com.example.speedymeals.database.DBManager;
 import com.example.speedymeals.model.Restaurant;
 import com.example.speedymeals.model.RestaurantList;
 
@@ -23,8 +24,8 @@ import java.nio.channels.Selector;
 
 public class fragment_restaurant extends Fragment {
 
-    private ResturantViewViewModel mViewModel;
-    private RestaurantList restaurantList;
+    private DBManager dbManager;
+    private RestaurantList restaurants;
 
 
     public static fragment_restaurant newInstance() {
@@ -36,7 +37,10 @@ public class fragment_restaurant extends Fragment {
                              @Nullable Bundle bundle) {
         View view = inflater.inflate(R.layout.fragment_restaurant_view, container, false);
 
-        restaurantList = getArguments().getParcelable("restList");
+        dbManager = DBManager.getInstance(getActivity());
+        dbManager.open();
+        restaurants = new RestaurantList();
+        restaurants.load(dbManager.readRestaurant());
 
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.restaurantRecyclerView);
         rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -64,7 +68,7 @@ public class fragment_restaurant extends Fragment {
 
         @Override
         public int getItemCount() {
-            return restaurantList.size();
+            return restaurants.size();
         }
     }
 
@@ -80,9 +84,23 @@ public class fragment_restaurant extends Fragment {
 
         public void bind(int pos)
         {
-            Restaurant nRestaurant = restaurantList.get(pos);
+            Restaurant nRestaurant = restaurants.get(pos);
             restName.setText(nRestaurant.getName());
             restPic.setImageResource(nRestaurant.getProfilePictureID());
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    fragment_foods newFrag = new fragment_foods();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("selectedRest", nRestaurant);
+                    newFrag.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.mainMenuView,newFrag,"foods")
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
         }
 
     }
