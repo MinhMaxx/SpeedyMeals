@@ -6,14 +6,14 @@ public class Order {
     private int id;
     private int userID;
     private String address;
-    private String restaurantName;
+    private String[] restaurantName;
     private String[] foodName;
     private String[] foodNumber;
     private String[] foodPrice;
     private Date date;
     private double totalCost;
 
-    public Order(int id, int userID, String address,String restaurantName, String[] foodName,
+    public Order(int id, int userID, String address,String[] restaurantName, String[] foodName,
                  String[] foodNumber, String[] foodPrice, Date date, double totalCost){
         this.id = id;
         this.userID = userID;
@@ -32,7 +32,7 @@ public class Order {
 
     public String getAddress(){return address;}
 
-    public String getRestaurantName(){return restaurantName;}
+    public String[] getRestaurantName(){return restaurantName;}
 
     public String[] getFoodName(){return foodName;}
 
