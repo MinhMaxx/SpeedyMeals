@@ -88,7 +88,7 @@ public class DBFiller {
                 4.5,R.drawable.hot_chocolate,4);
         dbManager.addFood("Latte","Just your usual Latte",
                 4.5,R.drawable.latte,4);
-        dbManager.addFood("Cappuccino","Just your usual ",
+        dbManager.addFood("Cappuccino","Just your usual Cappuccino",
                 14.0,R.drawable.cappuccino,4);
 
         dbManager.addFood("Avo on Toast","Mashed Avo on Toast with Poached Egg",
