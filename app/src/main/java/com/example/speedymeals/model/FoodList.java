@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+//implemented parcelable so it can be passed into fragment
 public class FoodList implements Parcelable
 {
     private List<Food> foods;
