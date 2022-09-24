@@ -8,9 +8,9 @@
 
 
     <View
-        android:id="@+id/divider4"
+        android:id="@+id/view4"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="5dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Date"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -161,5 +161,15 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

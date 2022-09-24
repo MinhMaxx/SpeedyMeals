@@ -8,85 +8,101 @@
 
     >
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/foodImg"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
         android:id="@+id/restName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
         android:text="TextView"
         android:textStyle="bold"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
         android:id="@+id/noOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:text="x "
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/restName"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
         android:id="@+id/foodName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:autoSizeMinTextSize="12dp"
         android:autoSizeTextType="uniform"
         android:text="TextView"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/desc"
         app:layout_constraintLeft_toRightOf="@+id/foodImg"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/foodCurrency"
-        app:layout_constraintTop_toBottomOf="@+id/desc" />
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintStart_toEndOf="@+id/foodCurrency" />
 
     <TextView
         android:id="@+id/foodCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
         android:text="$"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/foodImg"
-        app:layout_constraintTop_toBottomOf="@+id/desc" />
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintLeft_toRightOf="@+id/foodImg" />
 
     <TextView
         android:id="@+id/desc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="20dp"
         android:autoSizeMinTextSize="12dp"
         android:autoSizeStepGranularity="2sp"
         android:autoSizeTextType="uniform"
         android:text="TextView"
         android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/price"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/foodImg"
-        app:layout_constraintTop_toBottomOf="@+id/foodName" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
