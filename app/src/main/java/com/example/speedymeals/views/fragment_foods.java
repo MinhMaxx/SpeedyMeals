@@ -81,7 +81,7 @@ public class fragment_foods extends Fragment {
 
    private class foodVHolder extends RecyclerView.ViewHolder {
        private ImageView foodimg;
-       private TextView restName, foodName, price, desc;
+       private TextView restName, foodName, price, desc,noOrder;
        public foodVHolder(@NonNull View itemView) {
            super(itemView);
            foodimg = itemView.findViewById(R.id.foodImg);
@@ -89,6 +89,7 @@ public class fragment_foods extends Fragment {
            foodName = itemView.findViewById(R.id.foodName);
            price = itemView.findViewById(R.id.price);
            desc = itemView.findViewById(R.id.desc);
+           noOrder = itemView.findViewById(R.id.noOrder);
        }
 
        public void bind(int pos)
@@ -99,6 +100,7 @@ public class fragment_foods extends Fragment {
            foodName.setText(nFood.getName());
            price.setText(String.valueOf(nFood.getPrice()));
            desc.setText(nFood.getDescription());
+           noOrder.setText("");
 
            itemView.setOnClickListener(new View.OnClickListener() {
                @Override
