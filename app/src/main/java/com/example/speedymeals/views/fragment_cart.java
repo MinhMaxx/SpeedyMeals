@@ -22,10 +22,8 @@ import com.example.speedymeals.model.CommonCart;
 import com.example.speedymeals.model.Food;
 import com.example.speedymeals.model.Order;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 
 public class fragment_cart extends Fragment {
@@ -35,7 +33,7 @@ public class fragment_cart extends Fragment {
     private TextView totalPrice;
     private TextView noOfItem, foodname, pricetext;
     private ImageView foodPic;
-    private Button plus,minus,change, checkout;
+    private Button plus,minus,change, checkout,yesButton,noButton;
     cartAdapter adapter;
 
     @Override
@@ -125,7 +123,7 @@ public class fragment_cart extends Fragment {
     public void createNewFoodDialog(Food inFood, int pos, String noItem){
         dialogBuilder = new AlertDialog.Builder(/*parent.getContext()*/this.getContext());
 
-        final View foodPopup = getLayoutInflater().inflate(R.layout.foodpopup, null);
+        final View foodPopup = getLayoutInflater().inflate(R.layout.food_popup, null);
         noOfItem = foodPopup.findViewById(R.id.popNoText);
         foodname = foodPopup.findViewById(R.id.popfoodText);
         pricetext = foodPopup.findViewById(R.id.poppricetext);
@@ -189,30 +187,53 @@ public class fragment_cart extends Fragment {
 
     private void checkout()
     {
-        ArrayList<Order> listOfOrders;
-        Food cFood;
-        Integer nOfFood;
-        //TODO get user ID
-        for(int ii = 0; ii < mViewModel.cartSize(); ii ++)
-        {
-            cFood = mViewModel.getFoods(ii);
-            nOfFood = mViewModel.getAmount(ii);
-            Order nOrder = new Order(cFood.getId(),
-                    1/*TODO Add user ID*/,
-                    "home"/*TODO AddUserAddress*/ ,
-                    /*TODO Get Rest Name*/String.valueOf(cFood.getRestaurantID()).split(" "),
-                    cFood.getName().split(" "),
-                    /*TODO may need to convert nOfFood to int*/String.valueOf(nOfFood).split(" "),
-                    /*TODO may need to change price to double*/String.valueOf(cFood.getPrice()).split(" ")
-                    /*TODO*/, new Date(), (cFood.getPrice()*nOfFood));
-            //adapter.notifyItemRemoved(ii);
-        }
+        dialogBuilder = new AlertDialog.Builder(/*parent.getContext()*/this.getContext());
+        final View checkoutPopup = getLayoutInflater().inflate(R.layout.checkout_popup, null);
 
-        adapter.notifyItemRangeRemoved(0, mViewModel.cartSize());
-        mViewModel.clearCart();
+        yesButton = checkoutPopup.findViewById(R.id.yesButton);
+        noButton = checkoutPopup.findViewById(R.id.noButton);
+        dialogBuilder.setView(checkoutPopup);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        yesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<Order> listOfOrders;
+                Food cFood;
+                Integer nOfFood;
+                //TODO get user ID
+                for(int ii = 0; ii < mViewModel.cartSize(); ii ++)
+                {
+                    cFood = mViewModel.getFoods(ii);
+                    nOfFood = mViewModel.getAmount(ii);
+                    Order nOrder = new Order(cFood.getId(),
+                            1/*TODO Add user ID*/,
+                            "home"/*TODO AddUserAddress*/ ,
+                            /*TODO Get Rest Name*/String.valueOf(cFood.getRestaurantID()).split(" "),
+                            cFood.getName().split(" "),
+                            /*TODO may need to convert nOfFood to int*/String.valueOf(nOfFood).split(" "),
+                            /*TODO may need to change price to double*/String.valueOf(cFood.getPrice()).split(" ")
+                            /*TODO*/, new Date(), (cFood.getPrice()*nOfFood));
+                    //adapter.notifyItemRemoved(ii);
+                }
+
+                adapter.notifyItemRangeRemoved(0, mViewModel.cartSize());
+                mViewModel.clearCart();
 
 
-        totalPrice.setText(String.valueOf(mViewModel.totalPrice()));
+                totalPrice.setText(String.valueOf(mViewModel.totalPrice()));
+
+                dialog.dismiss();
+            }
+        });
+
+        noButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
 
     }
 

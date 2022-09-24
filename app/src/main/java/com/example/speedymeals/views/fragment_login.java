@@ -47,7 +47,7 @@ public class fragment_login extends Fragment
         email = view.findViewById(R.id.email);
         password = view.findViewById(R.id.password);
         loginButton = view.findViewById(R.id.loginButton);
-        registerButton = view.findViewById(R.id.registerButton);
+        registerButton = view.findViewById(R.id.orderButton);
 
         View snakeBarView = getActivity().findViewById(android.R.id.content);
         Snackbar mySnackbar = Snackbar.make(snakeBarView, "", 2000);

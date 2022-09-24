@@ -22,25 +22,25 @@ public class CommonCart extends ViewModel {
     {
         ArrayList<Food> foods = new ArrayList<>();
         ArrayList<Integer> foodAmount = new ArrayList<>();
-        if(cart.getValue()!=null && noAmount.getValue()!=null)
-        {
+        if(cart.getValue()!=null ) {
             foods = cart.getValue();
+        }
+        if(noAmount.getValue()!=null){
             foodAmount = noAmount.getValue();
-            //If the food is already in the cart
-            if(foods.contains(inFood)){
-                int foodPosition = foods.indexOf(inFood);
-                int newFoodAmount = foodAmount.get(foodPosition) + inFoodAmount;
-                foodAmount.set(foodPosition,newFoodAmount);
-            }
-            //If the food is not in the cart
-            else{
-                foods.add(inFood);
-                foodAmount.add(inFoodAmount);
-            }
+        }
+        //If the food is already in the cart
+        if(foods.contains(inFood)){
+            int foodPosition = foods.indexOf(inFood);
+            int newFoodAmount = foodAmount.get(foodPosition) + inFoodAmount;
+            foodAmount.set(foodPosition,newFoodAmount);
+        }
+        //If the food is not in the cart
+        else{
+            foods.add(inFood);
+            foodAmount.add(inFoodAmount);
         }
         cart.setValue(foods);
         noAmount.setValue(foodAmount);
-
     }
 
     public Food getFoods(int i)

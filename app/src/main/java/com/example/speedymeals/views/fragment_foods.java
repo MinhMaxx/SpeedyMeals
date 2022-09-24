@@ -5,8 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -117,7 +115,7 @@ public class fragment_foods extends Fragment {
     public void createNewFoodDialog(Food inFood){
         dialogBuilder = new AlertDialog.Builder(/*parent.getContext()*/this.getContext());
 
-        final View foodPopup = getLayoutInflater().inflate(R.layout.foodpopup, null);
+        final View foodPopup = getLayoutInflater().inflate(R.layout.food_popup, null);
         noOfItem = foodPopup.findViewById(R.id.popNoText);
         foodname = foodPopup.findViewById(R.id.popfoodText);
         pricetext = foodPopup.findViewById(R.id.poppricetext);
