@@ -91,14 +91,16 @@ public class fragment_cart extends Fragment {
 
     private class cartVHolder extends RecyclerView.ViewHolder{
         public ImageView foodPic;
-        public TextView foodName, price, description, noOfItem;
+        public TextView foodName, price, description, noOfItem,noOrder;
         public cartVHolder(@NonNull View itemView) {
             super(itemView);
             foodPic = itemView.findViewById(R.id.foodImg);
             foodName = itemView.findViewById(R.id.foodName);
             price = itemView.findViewById(R.id.price);
             description = itemView.findViewById(R.id.desc);
-            noOfItem = itemView.findViewById(R.id.restName); //reusing layout, applying different text
+            noOfItem = itemView.findViewById(R.id.restName);
+            noOrder= itemView.findViewById(R.id.noOrder);
+            //reusing layout, applying different text
         }
 
         public void bind(int pos)
@@ -109,17 +111,18 @@ public class fragment_cart extends Fragment {
             price.setText(String.valueOf(inFood.getPrice()));
             description.setText(inFood.getDescription());
             noOfItem.setText(String.valueOf(mViewModel.getAmount(pos)));
+            noOrder.setText("x ");
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    createNewFoodDialog(inFood, pos);
+                    createNewFoodDialog(inFood, pos, noOfItem.getText().toString());
                 }
             });
         }
     }
 
-    public void createNewFoodDialog(Food inFood, int pos){
+    public void createNewFoodDialog(Food inFood, int pos, String noItem){
         dialogBuilder = new AlertDialog.Builder(/*parent.getContext()*/this.getContext());
 
         final View foodPopup = getLayoutInflater().inflate(R.layout.foodpopup, null);
@@ -134,7 +137,7 @@ public class fragment_cart extends Fragment {
         foodname.setText(inFood.getName());
         pricetext.setText("$" + String.valueOf(inFood.getPrice()));
         foodPic.setImageResource(inFood.getProfilePictureID());
-        noOfItem.setText("0");
+        noOfItem.setText(noItem);
         dialogBuilder.setView(foodPopup);
         change.setText("Change");
 
