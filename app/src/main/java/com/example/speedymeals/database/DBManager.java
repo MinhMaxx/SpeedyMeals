@@ -14,6 +14,7 @@ import com.example.speedymeals.model.User;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -211,45 +212,35 @@ public class DBManager {
             do {
                 Order loadingOrder;
                 // on below line we are adding the data from cursor to our array list.
-                try {
-                    loadingOrder = new Order(Integer.parseInt(cursorList.getString(0)),
+                orderList.add(new Order(Integer.parseInt(cursorList.getString(0)),
                             Integer.parseInt(cursorList.getString(1)),
                             cursorList.getString(2),
                             convertStringToStringArray(cursorList.getString(3)),
                             convertStringToStringArray(cursorList.getString(4)),
                             convertStringToStringArray(cursorList.getString(5)),
                             convertStringToStringArray(cursorList.getString(6)),
-                            formatter.parse(cursorList.getString(7)),
-                            Double.parseDouble(cursorList.getString(8)));
-                } catch (ParseException e) {
-                    loadingOrder = new Order(Integer.parseInt(cursorList.getString(0)),
-                            Integer.parseInt(cursorList.getString(1)),
-                            cursorList.getString(2),
-                            convertStringToStringArray(cursorList.getString(3)),
-                            convertStringToStringArray(cursorList.getString(4)),
-                            convertStringToStringArray(cursorList.getString(5)),
-                            convertStringToStringArray(cursorList.getString(6)),
-                            null,
-                            Double.parseDouble(cursorList.getString(8)));
-                }
-                orderList.add(loadingOrder);
+                            cursorList.getString(7),
+                            cursorList.getString(8)));
             } while (cursorList.moveToNext());
         }
         cursorList.close();
         //db.close();
+
+        //Newest order will be shown first
+        Collections.reverse(orderList);
         return orderList;
     }
 
-    public void addOrder(int userID, String address,String restaurantName, String[] foodName,
-                         String[] foodNumber, String[] foodPrice, Date date, double totalCost){
+    public void addOrder(int userID, String address, String[] restaurantName, String[] foodName,
+                         String[] foodNumber, String[] foodPrice, String date, String totalCost){
         ContentValues values = new ContentValues();
         values.put(ORDER_USER_ID_COL, userID);
         values.put(ORDER_ADDRESS_COL, address);
-        values.put(ORDER_RESTAURANT_NAME_COL, restaurantName);
+        values.put(ORDER_RESTAURANT_NAME_COL, convertStringArrayToString(restaurantName));
         values.put(ORDER_FOOD_NAME_ARRAY_COL, convertStringArrayToString(foodName));
-        values.put(ORDER_FOOD_NUMBER_ARRAY_COL, convertStringArrayToString(foodPrice));
-        values.put(ORDER_FOOD_PRICE_ARRAY_COL, convertStringArrayToString(foodNumber));
-        values.put(ORDER_DATE_COL, formatter.format(date));
+        values.put(ORDER_FOOD_NUMBER_ARRAY_COL, convertStringArrayToString(foodNumber));
+        values.put(ORDER_FOOD_PRICE_ARRAY_COL, convertStringArrayToString(foodPrice));
+        values.put(ORDER_DATE_COL, date);
         values.put(ORDER_TOTAL_COST_COL, totalCost);
 
         db.insert(ORDER_TABLE_NAME, null, values);
@@ -328,7 +319,7 @@ public class DBManager {
         }
     }
 
-    private SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+    private SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 
     private String strSeparator = "__,__";
 

@@ -8,7 +8,7 @@ import com.example.speedymeals.model.User;
 import java.util.ArrayList;
 
 public class CommonUser extends ViewModel {
-    public MutableLiveData<User> user;
+    private MutableLiveData<User> user;
 
     public CommonUser(){
         user = new MutableLiveData<User>();
@@ -18,4 +18,9 @@ public class CommonUser extends ViewModel {
     public User getUser(){return user.getValue();}
 
     public void setUser(User user){this.user.setValue(user);}
+
+    public void clearUser()
+    {
+        user.setValue(null);
+    }
 }

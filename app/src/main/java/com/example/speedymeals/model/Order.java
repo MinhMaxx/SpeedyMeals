@@ -10,11 +10,11 @@ public class Order {
     private String[] foodName;
     private String[] foodNumber;
     private String[] foodPrice;
-    private Date date;
-    private double totalCost;
+    private String date;
+    private String totalCost;
 
     public Order(int id, int userID, String address,String[] restaurantName, String[] foodName,
-                 String[] foodNumber, String[] foodPrice, Date date, double totalCost){
+                 String[] foodNumber, String[] foodPrice, String date, String totalCost){
         this.id = id;
         this.userID = userID;
         this.address = address;
@@ -32,16 +32,57 @@ public class Order {
 
     public String getAddress(){return address;}
 
-    public String[] getRestaurantName(){return restaurantName;}
+    public String getRestaurantName(){
+        String str = "";
+        for (int i = 0;i<restaurantName.length; i++) {
+            str = str+restaurantName[i];
+            // Do not append comma at the end of last element
+            if(i<restaurantName.length-1){
+                str = str+"\n";
+            }
+        }
+        return str;
+    }
 
-    public String[] getFoodName(){return foodName;}
+    public String getFoodName(){
+        String str = "";
+        for (int i = 0;i<foodName.length; i++) {
+            str = str+foodName[i];
+            // Do not append comma at the end of last element
+            if(i<foodName.length-1){
+                str = str+"\n";
+            }
+        }
+        return str;
+    }
 
-    public String[] getFoodNumber(){return foodNumber;}
+    public String getFoodNumber(){
+        String str = "";
+        for (int i = 0;i<foodNumber.length; i++) {
+            str = str+"x"+foodNumber[i];
+            // Do not append comma at the end of last element
+            if(i<foodNumber.length-1){
+                str = str+"\n";
+            }
+        }
+        return str;
+    }
 
-    public String[] getFoodPrice(){return foodPrice;}
+    public String getFoodPrice(){
+        String str = "";
+        for (int i = 0;i<foodPrice.length; i++) {
+            Double priceFood = Double.parseDouble(foodPrice[i])*Integer.parseInt(foodNumber[i]);
+            str = str+"$"+priceFood.toString();
+            // Do not append comma at the end of last element
+            if(i<foodPrice.length-1){
+                str = str+"\n";
+            }
+        }
+        return str;
+    }
 
-    public Date getDate(){return date;}
+    public String getDate(){return date;}
 
-    public double getTotalCost(){return totalCost;}
+    public String getTotalCost(){return "$"+totalCost;}
 
 }

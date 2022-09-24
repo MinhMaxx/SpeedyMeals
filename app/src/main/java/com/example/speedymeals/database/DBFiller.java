@@ -75,7 +75,7 @@ public class DBFiller {
                 14.0,R.drawable.animal_lover,3);
         dbManager.addFood("Pizza Aussie","Mozzarella & cheddar mix, tomato sauce, tomato & GF FR bacon",
                 18.5,R.drawable.aussie,3);
-        dbManager.addFood("Pizza ","Mozzarella & cheddar mix, egg mayonnaise, onion, mushroom, tomato, GF FR bacon & swirl of hot chilli sauce",
+        dbManager.addFood("Pizza Deluxe","Mozzarella & cheddar mix, egg mayonnaise, onion, mushroom, tomato, GF FR bacon & swirl of hot chilli sauce",
                 22.0,R.drawable.hilton_deluxe,3);
 
         dbManager.addFood("Espresso","Just your usual Espresso",

@@ -110,7 +110,11 @@ public class fragment_register extends Fragment
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                fragment_login newFrag = new fragment_login();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.mainMenuView,newFrag)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
