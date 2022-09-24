@@ -1,10 +1,13 @@
 package com.example.speedymeals.views;
 
+import static android.graphics.Color.parseColor;
+
 import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,11 +21,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.speedymeals.R;
+import com.example.speedymeals.database.DBManager;
 import com.example.speedymeals.model.CommonCart;
+import com.example.speedymeals.model.CommonUser;
 import com.example.speedymeals.model.Food;
 import com.example.speedymeals.model.Order;
+import com.example.speedymeals.model.RestaurantList;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 
@@ -34,7 +44,11 @@ public class fragment_cart extends Fragment {
     private TextView noOfItem, foodname, pricetext;
     private ImageView foodPic;
     private Button plus,minus,change, checkout,yesButton,noButton;
-    cartAdapter adapter;
+    private cartAdapter adapter;
+    private CommonUser userData;
+    private Snackbar mySnackbar;
+    private RestaurantList restList;
+    private DBManager dbManager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -43,6 +57,14 @@ public class fragment_cart extends Fragment {
 
         mViewModel = new ViewModelProvider(getActivity(), (ViewModelProvider.Factory) new ViewModelProvider.NewInstanceFactory()).get(CommonCart.class);
 
+        restList = new RestaurantList();
+        restList = getArguments().getParcelable("restList");
+        userData = new ViewModelProvider(getActivity()).get(CommonUser.class);
+        View snakeBarView = getActivity().findViewById(android.R.id.content);
+        mySnackbar = Snackbar.make(snakeBarView, "", 2000);
+        mySnackbar.setTextColor(0xFFFFFFFF);
+
+
         totalPrice = view.findViewById(R.id.total);
         checkout = view.findViewById(R.id.checkOut);
         checkout.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +72,26 @@ public class fragment_cart extends Fragment {
             public void onClick(View view) {
                 if(mViewModel.cartSize() != 0)
                 {
-                    checkout();
+                    if(userData.getUser()!=null){
+                        checkout();
+                    }
+                    else{
+                        mySnackbar.setText("Please login before place an order!");
+                        mySnackbar.setBackgroundTint(0xFFD0342C);
+                        mySnackbar.show();
+                        fragment_login newFrag = new fragment_login();
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.mainMenuView,newFrag)
+                                .addToBackStack(null)
+                                .commit();
+                        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationView);
+                        bottomNavigationView.setSelectedItemId(R.id.acct);
+                    }
+                }
+                else{
+                    mySnackbar.setText("Cart is empty!");
+                    mySnackbar.setBackgroundTint(0xFFD0342C);
+                    mySnackbar.show();
                 }
             }
         });
@@ -199,31 +240,64 @@ public class fragment_cart extends Fragment {
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<Order> listOfOrders;
-                Food cFood;
-                Integer nOfFood;
-                //TODO get user ID
-                for(int ii = 0; ii < mViewModel.cartSize(); ii ++)
-                {
-                    cFood = mViewModel.getFoods(ii);
-                    nOfFood = mViewModel.getAmount(ii);
-                    Order nOrder = new Order(cFood.getId(),
-                            1/*TODO Add user ID*/,
-                            "home"/*TODO AddUserAddress*/ ,
-                            /*TODO Get Rest Name*/String.valueOf(cFood.getRestaurantID()).split(" "),
-                            cFood.getName().split(" "),
-                            /*TODO may need to convert nOfFood to int*/String.valueOf(nOfFood).split(" "),
-                            /*TODO may need to change price to double*/String.valueOf(cFood.getPrice()).split(" ")
-                            /*TODO*/, new Date(), (cFood.getPrice()*nOfFood));
-                    //adapter.notifyItemRemoved(ii);
+                ArrayList<Food> listOfFood;
+                ArrayList<Integer> listOfAmountOfFood;
+
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+                listOfFood = mViewModel.getFoodList();
+                listOfAmountOfFood = mViewModel.getNoItems();
+
+                int userID = userData.getUser().getId();
+                String address = userData.getUser().getAddress();
+                ArrayList<String> restaurantName = new ArrayList<String>();
+                ArrayList<String> foodName = new ArrayList<String>();
+                ArrayList<String> foodNumber = new ArrayList<String>();
+                ArrayList<String> foodPrice = new ArrayList<String>();
+                String date = formatter.format(new Date());
+                double totalCost = mViewModel.totalPrice();
+
+                for (int i = 0; i < mViewModel.cartSize(); i++) {
+                    restaurantName.add(restList.get(mViewModel.getFoods(i).getRestaurantID()-1).getName());
+                    foodName.add(mViewModel.getFoods(i).getName());
+                    foodNumber.add(mViewModel.getAmount(i).toString());
+                    foodPrice.add(String.valueOf(mViewModel.getFoods(i).getPrice()));
+                    adapter.notifyItemRemoved(i);
                 }
+
+                dbManager = DBManager.getInstance(null);
+                dbManager.addOrder(userID,
+                        address,
+                        Arrays.copyOf(restaurantName.toArray(), restaurantName.size(), String[].class),
+                        Arrays.copyOf(foodName.toArray(), foodName.size(), String[].class),
+                        Arrays.copyOf(foodNumber.toArray(), foodNumber.size(), String[].class),
+                        Arrays.copyOf(foodPrice.toArray(), foodPrice.size(), String[].class),
+                        date,
+                        Double.toString(totalCost));
+
+
+//
+//                for(int ii = 0; ii < mViewModel.cartSize(); ii ++)
+//                {
+//                    cFood = mViewModel.getFoods(ii);
+//                    nOfFood = mViewModel.getAmount(ii);
+//                    Order nOrder = new Order(cFood.getId(),
+//                            1/*TODO Add user ID*/,
+//                            "home"/*TODO AddUserAddress*/ ,
+//                            /*TODO Get Rest Name*/String.valueOf(cFood.getRestaurantID()).split(" "),
+//                            cFood.getName().split(" "),
+//                            /*TODO may need to convert nOfFood to int*/String.valueOf(nOfFood).split(" "),
+//                            /*TODO may need to change price to double*/String.valueOf(cFood.getPrice()).split(" ")
+//                            /*TODO*/, new Date(), (cFood.getPrice()*nOfFood));
+//                    //adapter.notifyItemRemoved(ii);
+//                }
 
                 adapter.notifyItemRangeRemoved(0, mViewModel.cartSize());
                 mViewModel.clearCart();
-
-
                 totalPrice.setText(String.valueOf(mViewModel.totalPrice()));
 
+                mySnackbar.setText("Your order have been places");
+                mySnackbar.setBackgroundTint(parseColor("#388E3C"));
+                mySnackbar.show();
                 dialog.dismiss();
             }
         });

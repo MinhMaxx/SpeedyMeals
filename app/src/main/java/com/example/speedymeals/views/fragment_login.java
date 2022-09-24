@@ -28,7 +28,7 @@ public class fragment_login extends Fragment
     private Button loginButton;
     private Button registerButton;
     private DBManager dbManager;
-    private CommonUser data;
+    private CommonUser userData;
 
     public fragment_login() {
 
@@ -60,12 +60,12 @@ public class fragment_login extends Fragment
                     if(!password.getText().toString().isEmpty()){
                         dbManager = DBManager.getInstance(null);
                         User newUser = dbManager.checkUser(email.getText().toString(),password.getText().toString());
-                        if(!newUser.equals(null)){
+                        if(newUser != null){
                             mySnackbar.setText("Login Sucessful");
                             mySnackbar.setBackgroundTint(parseColor("#388E3C"));
                             mySnackbar.show();
-                            data = new ViewModelProvider(getActivity()).get(CommonUser.class);
-                            data.setUser(newUser);
+                            userData = new ViewModelProvider(getActivity()).get(CommonUser.class);
+                            userData.setUser(newUser);
                             fragment_profile newFrag = new fragment_profile();
                             getActivity().getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.mainMenuView,newFrag)

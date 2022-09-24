@@ -87,7 +87,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + ORDER_FOOD_NUMBER_ARRAY_COL + " TEXT,"
                 + ORDER_FOOD_PRICE_ARRAY_COL + " TEXT,"
                 + ORDER_DATE_COL + " TEXT,"
-                + ORDER_TOTAL_COST_COL + " INTEGER)";
+                + ORDER_TOTAL_COST_COL + " TEXT)";
 
         db.execSQL(queryRestaurant);
         db.execSQL(queryFood);

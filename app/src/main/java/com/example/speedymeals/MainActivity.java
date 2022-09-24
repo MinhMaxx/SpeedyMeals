@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private User user;
     BottomNavigationView bottomNavigationView;
     ActionBar actionBar;
-    private CommonUser data;
+    private CommonUser userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         actionBar = getSupportActionBar();
 
-        data = new ViewModelProvider(this).get(CommonUser.class);
+        userData = new ViewModelProvider(this).get(CommonUser.class);
 
         //set up fragments
         FragmentManager fm = getSupportFragmentManager();
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle.putParcelable("restList", restaurants);//adds restaurants into the bundle
         hFragment.setArguments(Bundle);
         rFragment.setArguments(Bundle);
+        cFragment.setArguments(Bundle);
 
 
 
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                         actionBar.setSubtitle("");
                             return true;
                     case R.id.acct:
-                        if(data.getUser()==null){
+                        if(userData.getUser()==null){
                             actionBar.setTitle("Profile");
                             actionBar.setSubtitle("");
                             fm.beginTransaction().replace(R.id.mainMenuView,lFragment).commit();
