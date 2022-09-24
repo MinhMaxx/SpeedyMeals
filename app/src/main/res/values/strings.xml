@@ -13,4 +13,5 @@
     <string name="login_failed">"Login failed"</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
+    <string name="confirm_password">Comfirm Password</string>
 </resources>

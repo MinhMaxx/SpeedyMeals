@@ -3,35 +3,37 @@ package com.example.speedymeals;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.MenuItem;
 import com.example.speedymeals.views.fragment_login;
 
 import com.example.speedymeals.model.Food;
 import com.example.speedymeals.model.FoodList;
 import com.example.speedymeals.model.RestaurantList;
+import com.example.speedymeals.model.User;
+import com.example.speedymeals.model.CommonUser;
 import com.example.speedymeals.views.fragment_cart;
 import com.example.speedymeals.views.fragment_home;
 import com.example.speedymeals.views.fragment_profile;
 import com.example.speedymeals.views.fragment_restaurant;
+import com.example.speedymeals.views.fragment_login;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-import com.example.speedymeals.database.DBFiller;
-import com.example.speedymeals.database.DBHelper;
 import com.example.speedymeals.database.DBManager;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private DBManager dbManager;
     private RestaurantList restaurants;
     private FoodList foodList;
+    private User user;
     BottomNavigationView bottomNavigationView;
     ActionBar actionBar;
+    private CommonUser data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +50,15 @@ public class MainActivity extends AppCompatActivity {
 
         actionBar = getSupportActionBar();
 
+        data = new ViewModelProvider(this).get(CommonUser.class);
+
         //set up fragments
         FragmentManager fm = getSupportFragmentManager();
         fragment_cart cFragment = new fragment_cart();
         fragment_home hFragment = new fragment_home();
-        fragment_profile pFragment = new fragment_profile();
         fragment_restaurant rFragment = new fragment_restaurant();
         fragment_login lFragment = new fragment_login();
+        fragment_profile pFragment = new fragment_profile();
 
         //create new bundle for passing into fragment
         Bundle Bundle = new Bundle();
@@ -91,10 +95,19 @@ public class MainActivity extends AppCompatActivity {
                         actionBar.setSubtitle("");
                             return true;
                     case R.id.acct:
-                        actionBar.setTitle("Profile");
-                        actionBar.setSubtitle("");
-                        fm.beginTransaction().replace(R.id.mainMenuView,lFragment).commit();
+                        if(data.getUser()==null){
+                            actionBar.setTitle("Profile");
+                            actionBar.setSubtitle("");
+                            fm.beginTransaction().replace(R.id.mainMenuView,lFragment).commit();
                             return true;
+                        }
+                        else{
+                            actionBar.setTitle("Profile");
+                            actionBar.setSubtitle("");
+                            fm.beginTransaction().replace(R.id.mainMenuView,pFragment).commit();
+                            return true;
+                        }
+
                 }
 
                 return false;
