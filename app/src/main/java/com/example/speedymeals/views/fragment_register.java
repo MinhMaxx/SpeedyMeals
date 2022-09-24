@@ -54,7 +54,7 @@ public class fragment_register extends Fragment
         name = view.findViewById(R.id.name);
         address = view.findViewById(R.id.address);
         loginButton = view.findViewById(R.id.loginButton);
-        registerButton = view.findViewById(R.id.registerButton);
+        registerButton = view.findViewById(R.id.orderButton);
 
         View snakeBarView = getActivity().findViewById(android.R.id.content);
         Snackbar mySnackbar = Snackbar.make(snakeBarView, "", 2000);

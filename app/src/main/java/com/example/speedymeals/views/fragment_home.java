@@ -20,7 +20,6 @@ import com.example.speedymeals.R;
 import com.example.speedymeals.model.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class fragment_home extends Fragment {
@@ -117,7 +116,7 @@ public class fragment_home extends Fragment {
     public void createNewFoodDialog(Food inFood){
         dialogBuilder = new AlertDialog.Builder(/*parent.getContext()*/this.getContext());
 
-        final View foodPopup = getLayoutInflater().inflate(R.layout.foodpopup, null);
+        final View foodPopup = getLayoutInflater().inflate(R.layout.food_popup, null);
         noOfItem = foodPopup.findViewById(R.id.popNoText);
         foodname = foodPopup.findViewById(R.id.popfoodText);
         pricetext = foodPopup.findViewById(R.id.poppricetext);
