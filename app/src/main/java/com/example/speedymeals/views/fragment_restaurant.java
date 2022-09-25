@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +27,7 @@ public class fragment_restaurant extends Fragment {
 
     private DBManager dbManager;
     private RestaurantList restaurants;
-
+    private boolean isTablet;
 
     public static fragment_restaurant newInstance() {
         return new fragment_restaurant();
@@ -41,9 +42,13 @@ public class fragment_restaurant extends Fragment {
         dbManager.open();
         restaurants = new RestaurantList();
         restaurants.load(dbManager.readRestaurant());
+        isTablet = getArguments().getBoolean("isTablet");
 
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.restaurantRecyclerView);
-        rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        if(!isTablet)
+            rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        else
+            rv.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false));
         RestaurantAdapter adapter = new RestaurantAdapter();
         rv.setAdapter(adapter);
 
@@ -94,6 +99,7 @@ public class fragment_restaurant extends Fragment {
                     fragment_foods newFrag = new fragment_foods();
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("selectedRest", nRestaurant);
+                    bundle.putBoolean("isTablet", isTablet);
                     newFrag.setArguments(bundle);
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.mainMenuView,newFrag,"foods")

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import com.example.speedymeals.views.fragment_login;
@@ -60,10 +62,12 @@ public class MainActivity extends AppCompatActivity {
         fragment_login lFragment = new fragment_login();
         fragment_profile pFragment = new fragment_profile();
 
+
         //create new bundle for passing into fragment
         Bundle Bundle = new Bundle();
         Bundle.putParcelableArrayList("fodList", FODList); //list was used instead so a new list wasnt generated everytime it was called
         Bundle.putParcelable("restList", restaurants);//adds restaurants into the bundle
+        Bundle.putBoolean("isTablet", isTablet(getApplicationContext()));
         hFragment.setArguments(Bundle);
         rFragment.setArguments(Bundle);
         cFragment.setArguments(Bundle);
@@ -115,5 +119,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public boolean isTablet(Context context) {
+        boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == 4);
+        boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+        return (xlarge || large);
     }
 }
