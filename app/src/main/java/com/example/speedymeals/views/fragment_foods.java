@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +31,7 @@ public class fragment_foods extends Fragment {
     private ImageView foodPic, restPic;
     private Button plus,minus,addtocart;
     private CommonCart mViewModel;
+    private boolean isTablet;
 
    private Restaurant cRestaurant;
    @Override
@@ -44,11 +46,15 @@ public class fragment_foods extends Fragment {
         restPic.setImageResource(cRestaurant.getProfilePictureID());
         restName = view.findViewById(R.id.foodRestName);
         restName.setText(cRestaurant.getName());
+        isTablet = getArguments().getBoolean("isTablet");
 
         mViewModel = new ViewModelProvider(getActivity(), (ViewModelProvider.Factory) new ViewModelProvider.NewInstanceFactory()).get(CommonCart.class);
 
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.foodlist);
-        rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+       if(!isTablet)
+           rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+       else
+           rv.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false));
         FoodAdapter rAdapter = new FoodAdapter();
         rv.setAdapter(rAdapter);
 

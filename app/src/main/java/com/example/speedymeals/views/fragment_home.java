@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +34,7 @@ public class fragment_home extends Fragment {
     private TextView noOfItem, foodname, pricetext;
     private ImageView foodPic;
     private Button plus,minus,addtocart;
+    private boolean isTablet;
 
     private CommonCart mViewModel;
 
@@ -44,13 +46,17 @@ public class fragment_home extends Fragment {
         parent = container;
         data = getArguments().getParcelableArrayList("fodList");
         restList = getArguments().getParcelable("restList");
+        isTablet = getArguments().getBoolean("isTablet");
         View view = inflater.inflate(R.layout.fragment_home, container,false);
 
         mViewModel = new ViewModelProvider(getActivity(), (ViewModelProvider.Factory) new ViewModelProvider.NewInstanceFactory()).get(CommonCart.class);
 
 
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.homeRecycler);
-        rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        if(!isTablet)
+            rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        else
+            rv.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false));
         HomeAdapter adapter = new HomeAdapter();
         rv.setAdapter(adapter);
 
