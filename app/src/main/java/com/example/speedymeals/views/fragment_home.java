@@ -81,7 +81,7 @@ public class fragment_home extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 10;
+            return data.size();
         }
     }
 

@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             restaurants.load(dbManager.readRestaurant());
             foodList = new FoodList();
             foodList.load(dbManager.readFood());
-            ArrayList<Food> FODList = foodList.getFoodsOfTheDay(10);
+            ArrayList<Food> FODList = foodList.getFoodsOfTheDay(25);
 
         actionBar = getSupportActionBar();
 

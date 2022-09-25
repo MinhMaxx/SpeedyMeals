@@ -1,16 +1,15 @@
 package com.example.speedymeals.views;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,11 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.speedymeals.R;
 import com.example.speedymeals.database.DBManager;
-import com.example.speedymeals.model.CommonCart;
 import com.example.speedymeals.model.CommonUser;
-import com.example.speedymeals.model.Food;
 import com.example.speedymeals.model.Order;
-import com.example.speedymeals.model.RestaurantList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +35,8 @@ public class fragment_order extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle bundle) {
+        ActionBar actionbar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionbar.setTitle("Past Orders");
         parent = container;
         View view = inflater.inflate(R.layout.fragment_order_list, container,false);
         userData = new ViewModelProvider(getActivity()).get(CommonUser.class);
