@@ -70,7 +70,7 @@ public class fragment_register extends Fragment
                         if(password.getText().toString().equals(rePassword.getText().toString())){
                             if(pattern.matcher(password.getText().toString()).matches()){
                                 dbManager = DBManager.getInstance(null);
-                                if(dbManager.addUser(email.getText().toString(),password.getText().toString(),name.getText().toString(),address.getText().toString())){
+                                if(dbManager.addUser(email.getText().toString().toLowerCase(),password.getText().toString(),name.getText().toString(),address.getText().toString())){
                                     mySnackbar.setText("Register Sucessful");
                                     mySnackbar.setBackgroundTint(parseColor("#388E3C"));
                                     mySnackbar.show();

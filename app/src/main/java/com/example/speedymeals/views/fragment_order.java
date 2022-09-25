@@ -1,5 +1,9 @@
 package com.example.speedymeals.views;
 
+import static android.graphics.Color.parseColor;
+
+import android.app.AlertDialog;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,10 @@ import com.example.speedymeals.R;
 import com.example.speedymeals.database.DBManager;
 import com.example.speedymeals.model.CommonUser;
 import com.example.speedymeals.model.Order;
+
+import com.example.speedymeals.model.RestaurantList;
+import com.google.android.material.snackbar.Snackbar;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +51,14 @@ public class fragment_order extends Fragment {
         dbManager = DBManager.getInstance(null);
         orderList = new ArrayList<>();
         orderList= dbManager.readOrderOfUser(userData.getUser().getId());
+
+        if(orderList.size()==0){
+            View snakeBarView = getActivity().findViewById(android.R.id.content);
+            Snackbar mySnackbar = Snackbar.make(snakeBarView, "", 2000);
+            mySnackbar.setText("You haven't made an order with us :<");
+            mySnackbar.setBackgroundTint(parseColor("#00B8D4"));
+            mySnackbar.show();
+        }
 
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.orderRecycler);
         rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
