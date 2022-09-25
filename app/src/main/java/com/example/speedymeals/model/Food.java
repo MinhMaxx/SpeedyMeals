@@ -1,30 +1,48 @@
 package com.example.speedymeals.model;
-import android.content.res.Resources;
 
-import com.example.speedymeals.R;
-
-public class Food {
+import android.os.Parcel;
+import android.os.Parcelable;
+//implemented parcelable so it can be passed into fragment
+public class Food implements Parcelable
+{
+    private int id;
     private String name;
     private int profilePictureID;
     private double price;
     private String description;
+    private int restaurantID;
 
-    public Food(String name, double price, String description){
+    public Food(int id, String name, String description, double price, int profilePictureID,int restaurantID){
+        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-
-        //Add drawable id to object base on name
-        //If can't find a drawable -> use default one
-        //I haven't tested it yet though
-        int id = Resources.getSystem().getIdentifier(name,"drawable","com.example.speedymeals");
-        if(id == 0){
-            profilePictureID = R.drawable.default_image;
-        }
-        else{
-            profilePictureID = id;
-        }
+        this.profilePictureID = profilePictureID;
+        this.restaurantID = restaurantID;
     }
+
+    protected Food(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        profilePictureID = in.readInt();
+        price = in.readDouble();
+        description = in.readString();
+        restaurantID = in.readInt();
+    }
+
+    public static final Creator<Food> CREATOR = new Creator<Food>() {
+        @Override
+        public Food createFromParcel(Parcel in) {
+            return new Food(in);
+        }
+
+        @Override
+        public Food[] newArray(int size) {
+            return new Food[size];
+        }
+    };
+
+    public int getId() {return id;}
 
     public String getName(){return name;}
 
@@ -34,4 +52,20 @@ public class Food {
 
     public String getDescription(){return description;}
 
+    public int getRestaurantID(){return restaurantID;}
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeInt(profilePictureID);
+        parcel.writeDouble(price);
+        parcel.writeString(description);
+        parcel.writeInt(restaurantID);
+    }
 }
