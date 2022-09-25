@@ -59,7 +59,7 @@ public class fragment_login extends Fragment
                 if (!email.getText().toString().isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
                     if(!password.getText().toString().isEmpty()){
                         dbManager = DBManager.getInstance(null);
-                        User newUser = dbManager.checkUser(email.getText().toString(),password.getText().toString());
+                        User newUser = dbManager.checkUser(email.getText().toString().toLowerCase(),password.getText().toString());
                         if(newUser != null){
                             mySnackbar.setText("Login Sucessful");
                             mySnackbar.setBackgroundTint(parseColor("#388E3C"));
